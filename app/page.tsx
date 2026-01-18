@@ -19,21 +19,10 @@ export default function Home() {
         setLoading(true);
         setError(null);
 
-        // Fetch both endpoints in parallel
         const [ipoData, subscriptionData] = await Promise.all([
           fetchIPOData(IPO_SYMBOL),
           fetchSubscriptionData(IPO_SYMBOL)
         ]);
-
-        console.log('IPO Data:', ipoData);
-        console.log('Subscription Data:', subscriptionData);
-        console.log('Subscription Records:', subscriptionData.data);
-        
-        // Log first record to see field names
-        if (subscriptionData.data && subscriptionData.data.length > 0) {
-          console.log('First subscription record:', subscriptionData.data[0]);
-          console.log('Available fields:', Object.keys(subscriptionData.data[0]));
-        }
 
         setIpoResponse(ipoData);
         setSubscriptionResponse(subscriptionData);

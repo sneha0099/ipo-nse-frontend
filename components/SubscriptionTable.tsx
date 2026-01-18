@@ -38,13 +38,10 @@ const formatDate = (dateString: string): string => {
   }
 };
 
-// Helper function to check if a category is a main category (parent)
 const isMainCategory = (serialNumber: string): boolean => {
-  // Main categories have simple serial numbers: 1, 2, 3, 4, 5, or -
   return /^[1-5-]$/.test(serialNumber.trim());
 };
 
-// Helper function to determine indentation level
 const getIndentLevel = (serialNumber: string): number => {
   const serial = serialNumber.trim();
   if (/^[1-5-]$/.test(serial)) return 0; // Main categories (1, 2, 3, etc.)
@@ -54,27 +51,22 @@ const getIndentLevel = (serialNumber: string): number => {
   return 1; // Default
 };
 
-// Helper function to check if it should be bold (main or sub-main categories)
 const isBold = (serialNumber: string): boolean => {
   const serial = serialNumber.trim();
   return /^[1-5-]$/.test(serial) || /^\d+\.\d+$/.test(serial);
 };
 
-// Sort function to maintain proper order
 const sortBySerialNumber = (data: SubscriptionRecord[]): SubscriptionRecord[] => {
   return [...data].sort((a, b) => {
     const serialA = (a.serialNumber || '').trim();
     const serialB = (b.serialNumber || '').trim();
-    
-    // Handle Total (-) at the end
+
     if (serialA === '-') return 1;
     if (serialB === '-') return -1;
-    
-    // Handle missing serial numbers
+
     if (!serialA) return 1;
     if (!serialB) return -1;
-    
-    // Compare serial numbers naturally
+
     return serialA.localeCompare(serialB, undefined, { numeric: true, sensitivity: 'base' });
   });
 };
